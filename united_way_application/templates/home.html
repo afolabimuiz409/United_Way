@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>{% block title %}{% endblock title %}</title>
+    <!-- jQuery  (Django Template Engine)-->
+    <script src="{% static 'cdn/jquery-3.1.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'cdn/jquery-ui.min.js' %}" type="text/javascript"></script>
+    
+    <link href="{% static 'cdn/jquery-ui.min.css' %}"  rel="stylesheet" type="text/css" />
+
+    <!--Bootstrap-->
+    <script src="{% static 'cdn/popper.min.js' %} "></script>
+    <link href="{% static 'cdn/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'cdn/bootstrap.min.css' %} " />
+     <script src="{% static 'cdn/bootstrap.bundle.min.js' %}" type="text/javascript"></script> 
+  <link rel="stylesheet" href="{% static 'cdn/bootstrap1.min.css' %}" /> 
+  <script src="{% static 'cdn/bootstrap.min.js' %}"></script>
+ 
+
+  <link rel="stylesheet" href="{% static 'aos/aos.css' %}" />
+
+  <style>
+     body{
+        scroll-behavior: smooth;
+        font-family: Arial, sans-serif;
+     }
+    .hero-section {
+        background: url("{% static "images/img3.jpg" %}") center/cover no-repeat;
+        color: #fff;
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align:center;
+        position: relative;
+    }
+
+    .hero-overlay {
+        background: rgba(0, 0, 0, 0.55);
+        position: absolute;
+        insert: 0;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    } 
+
+    .btn-claim {
+        background-color: #ffb703;
+        color: #000;
+        padding: 14px 40px;
+        font-weight: bold;
+        border-radius: 40px;
+        transition: 0.3s ease;
+    }
+
+    .btn-claim:hover {
+        background-color: #ffd166;
+        transform: scale(1.05);
+    }
+    .section-title {
+        font-weight: 708;
+        margin-bottom: 1rem;
+    }
+
+    .impact-card {
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+        background: #ffffff;
+        transition: 0.3;
+    }
+    .impact-card:hover {
+        transform: translateY(-6px);
+    }
+  </style>
+
+</head>
+<body>
+
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-3 sticky-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img style="height: 50px; border-radius: 50px;" src="{% static 'images/logo.jpg' %}" alt="">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse text-center" id="navMenu">
+                <ul class="navbar-nav ms-auto gap-3">
+                    <li><a href="#about" class="nav-link">About_us</a></li>
+                    <li><a href="#impact" class="nav-link">Impact</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="{% url 'claim_money' %}" class="btn btn-warning px-4">Claim Funds</a></li>
+                </ul>
+            </div>
+        </div>
+     </nav>
+
+     <!-- Hero Section -->
+      <section class="hero-section">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+               <h1 class="display-4 fw-bold">Empowering Communities Worldwide</h1>
+               <p class="lead">We Support Individual and families by providing direct financial relief.</p>
+               <a href="{% url 'claim_money' %}" class="btn btn-claim">Start Your Claim</a>
+          </div>
+      </section>
+
+      <!-- ABOUT -->
+       <section id="about" class="py-5 text-center container">
+            <h2 class="section-title">Who We Are</h2>
+            <p class="text-muted">We are committed to improving lives by providing access to essential resources and financial aid.</p>
+       </section>
+
+      <section id="impact" class=" py-5 bg-light">
+            <div class="container text-center">
+                <h2 class="section-title mb-4">Our Global Impact</h2>
+
+                <div class="row g-4">
+                    <div class="col-m-4">
+                        <div class="impact-card">
+                            <h3 class="fw-bold">500k+</h3>
+                            <p>People Supported Worldwide</p>
+                        </div>
+                    </div>
+
+                    <div class="col-m-4">
+                        <div class="impact-card">
+                            <h3 class="fw-bold">$40M+</h3>
+                            <p>Funds Distributed</p>
+                        </div>
+                    </div>
+
+                    <div class="col-m-4">
+                        <div class="impact-card">
+                            <h3 class="fw-bold">120+</h3>
+                            <p>Active Countries</p>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+      </section>
+
+      <!-- CONTACT -->
+
+      <section id="contact" class="py-5 text-center container">
+           <h2 class="section-title">Contact Us</h2>
+           <p class="text-muted">Need assistance? Our support team is ready to help.</p>
+           {% comment %} <a href="{% url ' claim_money' %}" class="btn btn-claim btn-lg">Start Claim Process</a> {% endcomment %}
+      </section>
+
+      <!-- Footer -->
+       <footer class="text-center py-4 bg-dark text-light">
+        <p class="mb-0">&copy; 2025 United Community Support. All rights Reserved.</p>
+       </footer>
+    
+</body>
+</html>

