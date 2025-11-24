@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*', 'united-way.onrender.com']
 # 🔥🔥 CORRECT STATIC CONFIG (FIXED)
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticsfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "united_way_application/static",
