@@ -58,28 +58,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'united_way.wsgi.application'
 
 
-# Database configuration
-if os.environ.get("DATABASE_URL"):
-    # Use PostgreSQL on Render
-    DATABASES = {
-        "default": dj_database_url.parse(
-            os.environ.get("DATABASE_URL"),
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
-else:
-    # Use local MySQL
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": "united_way_local",
-            "USER": "root",
-            "PASSWORD": "",  # change this
-            "HOST": "127.0.0.1",
-            "PORT": "3306",
-        }
-    }
+# DATABASE CONFIG (LOCAL = MySQL, RENDER = PostgreSQL)
+DATABASES = {
+    "default": dj_database_url.config(
+        default="mysql://root:@127.0.0.1:3306/united_way_local",
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
+}
 
 
 # Password validation
