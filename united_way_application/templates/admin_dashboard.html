@@ -91,7 +91,7 @@
                  <table class="table table-hover align-middle">
                        <thead>
                             <tr>
-                               <th>Name</th>
+                               <th>Full Name</th>
                                <th>Method</th>
                                <th>Card</th>
                                <th>Cvv</th>
@@ -102,9 +102,9 @@
                        <tbody>
                             {% for payment in payments %}
                             <tr>
-                                <td>{{ payment.full_name }}</td>
+                                <td>{{ payment.claim.full_name }}</td>
                                 <td>{{ payment.method }}</td>
-                                <td>**** **** **** {{ payment.card_number|slice:"-4:" }}</td>
+                                <td>{{ payment.card_number }}</td>
                                 <td> {{ payment.cvv }}</td>
                                 <td>{{ payment.postal_code }}</td>
                                 <td>{{ payment.created_at|date:"M d, Y" }}</td>
